@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool opacidade = true;
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +26,49 @@ class MyApp extends StatelessWidget {
           leading: Container(),
           title: const Text('Tarefas', ),
         ),
-        body: ListView(
-          children: const [
-            Task(nome: 'Andar de Bike', foto: 'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large' ,),
-            Task(nome: 'Aprender Flutter', foto: 'https://tswbike.com/wp-content/uploads/2020/09/108034687_626160478000800_2490880540739582681_n-e1600200953343.jpg'),
-            Task(nome: 'Meditar', foto: 'https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg'),
-            Task(nome: 'Ler', foto:'https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg'),
-            Task(nome: 'Jogar', foto:'https://i.ibb.co/tB29PZB/kako-epifania-2022-2-c-pia.jpg'),
-          ],
+        body: AnimatedOpacity(
+          opacity: opacidade ? 1 : 0,
+          duration: const Duration(milliseconds: 1000),
+          child: ListView(
+            children: const [
+              Task(
+                  nome: 'Andar de Bike',
+                  foto:
+                      'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
+                  dificuldade: 3,
+                ),
+                Task(
+                  nome: 'Aprender Flutter',
+                  foto:
+                      'https://tswbike.com/wp-content/uploads/2020/09/108034687_626160478000800_2490880540739582681_n-e1600200953343.jpg',
+                  dificuldade: 1,
+                ),
+                Task(
+                  nome: 'Meditar',
+                  foto:
+                      'https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg',
+                  dificuldade: 5,
+                ),
+                Task(
+                  nome: 'Ler',
+                  foto:
+                      'https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg',
+                  dificuldade: 2,
+                ),
+                Task(
+                  nome: 'Jogar',
+                  foto: 'https://i.ibb.co/tB29PZB/kako-epifania-2022-2-c-pia.jpg',
+                  dificuldade: 4,
+                ),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
-         child: const Icon(Icons.plus_one),
+         child: const Icon(Icons.remove_red_eye),
           onPressed: () {
-          
+            setState(() {
+              opacidade = !opacidade;
+            });
           },
         ),
       )
@@ -42,7 +79,8 @@ class MyApp extends StatelessWidget {
 class Task extends StatefulWidget {
   final String nome;
   final String foto;
-  const Task({super.key, required this.nome, required this.foto});
+  final int dificuldade;
+  const Task({super.key, required this.nome, required this.foto, required this.dificuldade});
 
   @override
   State<Task> createState() => _TaskState();
@@ -59,24 +97,36 @@ class _TaskState extends State<Task> {
         child: Stack(
           children: [
             Container(
-              color: Colors.blue,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(4)
+              ),
               height: 140,
             ),
             Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4)
+                  ),
                   height: 100,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color: Colors.black26,
+                        decoration: BoxDecoration(
+                          color: Colors.black26,
+                          borderRadius: BorderRadius.circular(4)
+                        ),
                         width: 72,
                         height: 100,
-                        child: Image.network(
-                          widget.foto,
-                          fit: BoxFit.cover,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.network(
+                            widget.foto,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Column(
@@ -92,12 +142,32 @@ class _TaskState extends State<Task> {
                             ),
                           ),
                           Row(
-                            children: [
-                              Icon(Icons.star, size: 15, color: Colors.blue),
-                              Icon(Icons.star, size: 15, color: Colors.blue),
-                              Icon(Icons.star, size: 15, color: Colors.blue),
-                              Icon(Icons.star, size: 15, color: Colors.blue),
-                              Icon(Icons.star, size: 15, color: Colors.blue),
+                            children:  [
+                              Icon(
+                                Icons.star, 
+                                size: 15, 
+                                color: widget.dificuldade >= 1 ? Colors.blue : Colors.blue [100]
+                              ),
+                              Icon(
+                                Icons.star, 
+                                size: 15, 
+                                color: widget.dificuldade >= 2 ? Colors.blue : Colors.blue [100]
+                              ),
+                              Icon(
+                                Icons.star, 
+                                size: 15, 
+                                color: widget.dificuldade >= 3 ? Colors.blue : Colors.blue [100]
+                              ),
+                              Icon(
+                                Icons.star, 
+                                size: 15, 
+                                color: widget.dificuldade >= 4 ? Colors.blue : Colors.blue [100]
+                              ),
+                              Icon(
+                                Icons.star, 
+                                size: 15, 
+                                color: widget.dificuldade >= 5 ? Colors.blue : Colors.blue [100]
+                              ),
                             ],
                           )
                         ],
@@ -134,7 +204,7 @@ class _TaskState extends State<Task> {
                         width: 200,
                         child: LinearProgressIndicator(
                           color: Colors.white,
-                          value: nivel/10,
+                          value: widget.dificuldade > 0 ? (nivel/widget.dificuldade)/10 : 1,
 
                         )
                       ),
