@@ -1,9 +1,16 @@
+import 'dart:async';
+
+import 'package:alura_flutter1/data/task_inherited.dart';
 import 'package:flutter/material.dart';
 
 // url imagem teste: https://ih1.redbubble.net/image.3266012404.3827/st,small,507x507-pad,600x600,f8f8f8.jpg
     
 class FormScreeen extends StatefulWidget {
-  const FormScreeen({Key? key}) : super(key: key);
+  const FormScreeen({
+    Key? key, required this.taskContext
+  }) : super(key: key);
+
+  final BuildContext taskContext;
 
   @override
   _FormScreeenState createState() => _FormScreeenState();
@@ -127,12 +134,24 @@ class _FormScreeenState extends State<FormScreeen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: (() {
+                    onPressed: (() async{
+
                       if (_formKey.currentState!.validate()) {
-                        print(nameController.text);
-                        print(int.parse(difficultyController.text));
-                        print(imageController.text);  
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Salvando nova tarefa')));
+                        // print(nameController.text);
+                        // print(int.parse(difficultyController.text));
+                        // print(imageController.text);  
+
+                        TaskInherited.of(widget.taskContext)!.newTask(
+                          nameController.text, 
+                          imageController.text, 
+                          int.parse(difficultyController.text)
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Salvando nova tarefa')),
+                        );
+          
+                        Navigator.pop(context);
                       } else {
                         print('O formulário não foi validado');
                       }
