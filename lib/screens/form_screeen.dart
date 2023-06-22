@@ -23,6 +23,24 @@ class _FormScreeenState extends State<FormScreeen> {
   TextEditingController difficultyController = TextEditingController();
   TextEditingController imageController = TextEditingController();
 
+  bool valueValidator(String? value){
+    if (value != null && value.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool difficultyValidator(String? value){
+     if (value != null && value.isEmpty) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
+        return true;
+      }
+    }
+    return false;
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -48,8 +66,8 @@ class _FormScreeenState extends State<FormScreeen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      validator: (value) {
-                        if (value != null && value.isEmpty) {
+                      validator: (String? value) {
+                        if (valueValidator(value)) {
                           return 'Insira o nome da Tarefa';
                         }
                         return null;
@@ -69,7 +87,7 @@ class _FormScreeenState extends State<FormScreeen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty || int.parse(value) > 5 || int.parse(value) < 1) {
+                        if (difficultyValidator(value)) {
                           return 'Insira uma dificuldade entre 1 e 5';
                         }
                         return null;
@@ -94,7 +112,7 @@ class _FormScreeenState extends State<FormScreeen> {
                         });
                       }),
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Insira um url de imagem';
                         }
                         return null;
