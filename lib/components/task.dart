@@ -1,4 +1,4 @@
-import 'package:alura_flutter1/screens/components/difficulty.dart';
+import 'package:alura_flutter1/components/difficulty.dart';
 import 'package:flutter/material.dart';
 
 class Task extends StatefulWidget {
