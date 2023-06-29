@@ -26,15 +26,7 @@ class _HomePageState extends State<HomePage> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
           child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(width: 2), 
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8) , 
-                topRight: Radius.circular(8), 
-                bottomLeft: Radius.circular(30), 
-                bottomRight: Radius.circular(30) 
-              ),
-            ),
+            
             child: ListView(
               children: TaskInherited.of(context)!.taskList,
               padding: EdgeInsets.only(top: 8, bottom: 100),
