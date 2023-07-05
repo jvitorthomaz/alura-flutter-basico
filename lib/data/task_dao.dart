@@ -89,6 +89,9 @@ class TaskDao {
   }
 
   delete(String nomeDaTarefa) async{
+    print('Deletando tarefa: $nomeDaTarefa');
+    final Database bancoDedados = await getDatabase();
+    return bancoDedados.delete(_tablename, where: '$_name = ?', whereArgs: [nomeDaTarefa]);
 
   }
   
