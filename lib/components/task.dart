@@ -1,4 +1,5 @@
 import 'package:alura_flutter1/components/difficulty.dart';
+import 'package:alura_flutter1/data/task_dao.dart';
 import 'package:flutter/material.dart';
 
 class Task extends StatefulWidget {
@@ -103,6 +104,9 @@ class _TaskState extends State<Task> {
                               widget.nivel++;
                             });
                           }, 
+                          onLongPress: () {
+                            TaskDao().delete(widget.nome);
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.end,

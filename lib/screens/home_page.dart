@@ -22,6 +22,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           leading: Container(),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {});
+              }, 
+              icon: const Icon(Icons.refresh)
+            ),
+          ],
           title: const Text('Tarefas', ),
         ),
         body: Padding(
@@ -102,10 +110,6 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                       );
-
-                      
-                      //break; 
-
                   }
                   //return const Text('Erro desconhecido');
                 })
