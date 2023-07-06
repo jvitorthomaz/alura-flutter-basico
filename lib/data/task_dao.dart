@@ -8,7 +8,7 @@ class TaskDao {
   static const String tableSql = 'CREATE TABLE $_tablename('
     '$_name TEXT, '
     '$_difficulty INTEGER, '
-    '$_image TEXT ';
+    '$_image TEXT )';
 
   static const String  _tablename = 'taskTable';
   static const String  _name = 'name';
@@ -55,6 +55,7 @@ class TaskDao {
     print('Acessando o findAll: ');
 
     final Database bancoDedados = await getDatabase();
+    print("Acessou banco");
     final List<Map<String, dynamic>> result = await bancoDedados.query(_tablename);
 
     print('Procurando no banco de dados...');

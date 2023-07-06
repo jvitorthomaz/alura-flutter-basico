@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:alura_flutter1/components/task.dart';
+import 'package:alura_flutter1/data/task_dao.dart';
 import 'package:alura_flutter1/data/task_inherited.dart';
 import 'package:flutter/material.dart';
 
@@ -155,10 +157,15 @@ class _FormScreeenState extends State<FormScreeen> {
                     onPressed: (() async{
 
                       if (_formKey.currentState!.validate()) {
-                        // print(nameController.text);
-                        // print(int.parse(difficultyController.text));
-                        // print(imageController.text);  
 
+                        TaskDao().save(
+                          Task(
+                            nome: nameController.text, 
+                            foto: imageController.text, 
+                            dificuldade: int.parse(difficultyController.text)
+                          )
+                        );
+                        
                         TaskInherited.of(widget.taskContext)!.newTask(
                           nameController.text, 
                           imageController.text, 

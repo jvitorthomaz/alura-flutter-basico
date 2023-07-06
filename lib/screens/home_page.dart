@@ -27,50 +27,90 @@ class _HomePageState extends State<HomePage> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
           child: Container(
-            // child: Padding(
-            //   padding: EdgeInsets.only(top: 8, bottom: 100),
-            //   child: FutureBuilder<List<Task>>(
-            //     future: TaskDao().findAll(), builder: ((context, snapshot) {
-            //       List<Task>? items = snapshot.data;
+            child: Padding(
+              padding: EdgeInsets.only(top: 8, bottom: 100),
+              child: FutureBuilder<List<Task>>(
+                future: TaskDao().findAll(), builder: ((context, snapshot) {
+                  List<Task>? items = snapshot.data;
                 
 
-            //       switch (snapshot.connectionState) {
-            //         case ConnectionState.none:
-                      
-            //           break;
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Center(
+                        child: Column(
+                          children: const [
+                            CircularProgressIndicator(),
+                            Text('Carregando...')
+                          ],
+                        ),
+                      );
+                      //break;
 
-            //         case ConnectionState.waiting:
+                    case ConnectionState.waiting:
+                    return Center(
+                        child: Column(
+                          children: const [
+                            CircularProgressIndicator(),
+                            Text('Carregando...')
+                          ],
+                        ),
+                      );
 
-            //           break;
+                      //break;
 
-            //         case ConnectionState.active:
+                    case ConnectionState.active:
+                    return Center(
+                        child: Column(
+                          children: const [
+                            CircularProgressIndicator(),
+                            Text('Carregando...')
+                          ],
+                        ),
+                      );
 
-            //           break;
+                      //break;
 
-            //         case ConnectionState.done:
-            //           if(snapshot.hasData && items != null){
-            //             if (items.isNotEmpty) {
-            //               return ListView.builder(itemCount: items.length, itemBuilder: (BuildContext context, int index){
-            //                 final Task tarefa = items[index];
-            //                 return tarefa;
-            //               });
+                    case ConnectionState.done:
+                      if(snapshot.hasData && items != null){
+                        if (items.isNotEmpty) {
+                          return ListView.builder(itemCount: items.length, itemBuilder: (BuildContext context, int index){
+                            final Task tarefa = items[index];
+                            return tarefa;
+                          });
                           
-            //             }
-            //           }
+                        }
+                        return Center(
+                          child: Column(
+                            children: const [
+                              Icon(Icons.error_outline, size: 128,),
+                              Text(
+                                'Não há nenhuma Tarefa',
+                                style: TextStyle(fontSize: 32),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return Center(
+                          child: Column(
+                            children: const [
+                              Icon(Icons.error_outline, size: 128,),
+                              Text(
+                                'Erro ao carregar Tarefas',
+                                style: TextStyle(fontSize: 32),
+                              ),
+                            ],
+                          ),
+                      );
 
-            //           break; 
+                      
+                      //break; 
 
-            //         default:
-            //       }
-              
-            //     })
-            //   )
-            // )
-            
-            // child: ListView(
-            //   children: TaskInherited.of(context)!.taskList,
-            //   padding: EdgeInsets.only(top: 8, bottom: 100),
-            // ),
+                  }
+                  //return const Text('Erro desconhecido');
+                })
+              )
+            )
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -79,7 +119,9 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context, 
               MaterialPageRoute(builder: (contextNew) => FormScreeen(taskContext: context,)),
-            );
+            ).then((value) => setState(() {
+              print('Recarregando tela inicial');
+            },));
           },
         ),
       );
